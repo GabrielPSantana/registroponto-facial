@@ -1,1 +1,1 @@
-Sistema de Registro de ponto po reconhecimento Facial
+Sistema de Registro de ponto por reconhecimento Facial
