@@ -33,3 +33,5 @@ staticfiles/
 # =========================
 # Migrations (opcional)
 # ⚠️ Geralmente NÃO ignorar m
+
+tmp/

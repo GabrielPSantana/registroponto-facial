@@ -9,6 +9,11 @@ class VideoCamera(object):
         if not self.video.isOpened(): # Verifica se camera está aberta
             print("Erro ao acessar a câmera.")
 
+        self.img_dir = './tmp'
+
+        if not os.path.exists(self.img_dir):
+            os.makedirs(self.img_dir)
+
     def __del__(self):
         self.video.release()  # Libera a câmera ao destruir a classe
 
@@ -65,3 +70,17 @@ class VideoCamera(object):
         ret, jpeg = cv2.imencode('.jpg', frame)
 
         return jpeg.tobytes()  # Converte o frame para formato JPEG em bytes
+    
+    def sample_faces(self, frame):
+        ret, frame = self.get_camera()
+        frame = cv2.flip(frame, 180)
+        frame = cv2.resize(frame, (480, 360))
+        
+        # Detecta a face
+        faces = self.face_cascade.detectMultiScale(
+            frame, minNeighbors=20, minSize=(30, 30), maxSize=(400, 400))
+        
+        for (x, y, w, h) in faces:
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 4)
+            cropped_face = frame[y:y+h, x:x+w]
+            return cropped_face  # Retorna o rosto recortado
